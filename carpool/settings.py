@@ -96,7 +96,6 @@ TEMPLATES = [
     },
 ]
 
-API_KEY = 'AIzaSyAx9s1E5g-LEUnBjRk2VrRT78bCRcbD3EM'
 AUTH_USER_MODEL = 'ui.User'
 LOGIN_URL = 'home_page'
 LOGIN_REDIRECT_URL = 'user_home'
