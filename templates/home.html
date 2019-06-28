@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Daniel Domingo-Fernandez">
+    {% load static %}
+    <title>Share your Drive
+    </title>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <link href="{% static 'css/nav.css' %}" rel="stylesheet">
+    {% include "common.html" %}
+
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url "user_home" %}"> <img
+                    style="max-height:50px; vertical-align:middle; "
+                    src="{% static 'img/logo.png' %}" alt="">
+            </a>
+            <a class="navbar-brand" href="#"><b>CarPool</b></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong
+                            class="caret"></strong></a>
+
+                    <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                        <form class="form" role="form" method="post" action="{% url "login" %}"
+                              style="min-width: 200px">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email"
+                                       placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input required="required" type="password" class="form-control" id="password"
+                                       name="password"
+                                       placeholder="Passwort/Password">
+                            </div>
+                            <input class="btn btn-primary"
+                                   style="clear: left; margin-bottom:14px;width: 100%; height: 32px; font-size: 13px;"
+                                   type="submit" value="Sign In"/>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div id="headerwrap">
+    <div class="container">
+        {% if not_registered_user %}
+            <p class="text-center"><b>Oups! Apparently, you have not still created an user with that account, or your
+                credentials are not correct.
+            </b>
+            </p>
+        {% endif %}
+
+        {% if user_already_exists %}
+            <p class="text-center">
+                <b>
+                    Oups! Apparently, your email is already in the Carpool app.
+                    Try to log in! Or contact the administrator to set your password again
+                </b>
+            </p>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>Pool with the Cool</h1>
+
+                <form class="form" role="form" method="post" action="{% url "signup" %}" style="width: 70%">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <input type="text" required="required" class="form-control" id="first" name="first"
+                               placeholder="Vorname / First Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" required="required" class="form-control" id="last" name="last"
+                               placeholder="Nachname / Last Name">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" required="required" autocomplete="off" class="form-control"
+                               name="email"
+                               placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" required="required" autocomplete="off" class="form-control"
+                               name="password"
+                               placeholder="Passwort / Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" autocomplete="off" class="form-control" id="contact"
+                               name="contact"
+                               placeholder="Telefonnummer / Contact Number (Optional)">
+                    </div>
+                    <input type="submit" value="Registrieren / Sign Up" class="btn btn-lg">
+                </form>
+            </div>
+            <div class="col-lg-6">
+                <img class="img-responsive" src="{% static 'img/carpool.jpg' %}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

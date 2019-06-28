@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="{% url "user_home" %}"> <img
+                    style="max-height:50px; vertical-align:middle; "
+                    src="{% static 'img/logo.png' %}" alt="">
+            </a>
+            <a class="navbar-brand" href="{% url "user_home" %}"><b>CarPool</b></a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li style="margin-right: 30px;"><a>Hi, {{ user }}</a>
+                </li>
+                <li><a href="{% url "user_home" %}">Home</a>
+                </li>
+                <li><a href="{% url "logout" %}">Ausloggen/ Sign Out</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common.html" %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.simple-dtpicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link href="{% static 'css/nav.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.16/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+
+    <title>CarPool - Pool with the Cool</title>
+
+    <script>
+        $(document).ready(function () {
+
+            var table = $('#my-commutes-table').DataTable();
+
+            // Clicks all buttons in all tables
+            $('#selectAll').click(function (e) {
+
+                var boolean = $(this).prop('checked');
+
+                $.each(table[0].children[1].children, function (index, input) {
+                    input.children[0].childNodes[1].children[0].checked = boolean;
+                });
+            });
+
+        });
+    </script>
+</head>
+<body>
+{% include "nav.html" %}
+
+<div class="container">
+
+    {% if not commutes %}
+
+        <p class="text-center">
+            <b>Hoppla! Anscheinend hast Du noch keine Mitfahrgelegenheit angeboten. Klicke <a
+                    href="{% url "new_commute" %}">hier </a>, um eine Mitfahrgelegenheit anzubieten.
+            </b>
+        </p>
+        <p class="text-center"><b>Oops! Apparently, you still have not created any rides.
+            Click <a href="{% url "new_commute" %}">here</a> to create one</b>
+        </p>
+
+    {% else %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Meine Fahrten / My Commutes</div>
+            <div class="panel-body">
+                <form id="delete-commutes-form" method="get" action="{% url "delete_commutes" %}">
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="submit">Fahrten löschen / Delete Commutes</button>
+                    </div>
+                    <table class="table table-striped table-hover" id="my-commutes-table">
+                        <thead>
+                        <tr>
+                            <th class="first-row">
+                                <input type="checkbox" id="selectAll"/>
+                            </th>
+                            <th class="first-row">Abfahrtszeit / Time of Commute</th>
+                            <th class="first-row">Tag / Weekday</th>
+                            <th class="first-row">Abfahrtsort / Starting Place</th>
+                            <th class="first-row">Ziel / Ending Place</th>
+                            <th class="first-row">Freie Plätze / Number of Seats</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for commute in commutes %}
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input type="checkbox" name="commutes[]"
+                                               value="{{ commute.id }}"/>
+                                    </label>
+                                </td>
+                                <td>{{ commute.format_time }}</td>
+                                <td> {% for key, day in WEEKDAYS.items %}
+                                    {% if commute.time.weekday == key %}
+                                        {{ day }}
+                                    {% endif %}
+                                {% endfor %}</td>
+                                <td>
+
+                                    {{ commute.start_name }} ({{ commute.start_latitude }},
+                                    {{ commute.start_longitude }})
+                                </td>
+                                <td>{{ commute.end_name }} ({{ commute.end_latitude }}, {{ commute.end_longitude }})
+                                </td>
+                                <td>{{ commute.seats }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</body>
+</html>
