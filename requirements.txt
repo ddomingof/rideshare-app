@@ -1,2 +1,2 @@
-django==2.2
+django==2.2.2
 reverse_geocoder==1.5.1
