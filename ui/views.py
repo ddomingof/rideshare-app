@@ -12,7 +12,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 
-from carpool.settings import API_KEY
 from ui.models import Commute, User
 
 
@@ -50,7 +49,7 @@ def welcome(request):
 @login_required
 @require_GET
 def new_commute(request):
-    return render(request, 'create_commute.html', context={'API_KEY': API_KEY})
+    return render(request, 'create_commute.html')
 
 
 @login_required
