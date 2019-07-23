@@ -90,7 +90,7 @@ class Commute(models.Model):
             "id": self.id,
             "time": self.format_time(),
             "email": self.user.email,
-            "contact_number": self.user.contact_number,
+            "contact_number": self.user.contact_number if self.user.contact_number else "",
             "seats": self.seats,
         }
 
